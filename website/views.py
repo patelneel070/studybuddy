@@ -1,10 +1,25 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile
 from django.http import HttpResponse
+from .models import StudyBuddyRequest, Profile, User
+from django.shortcuts import get_object_or_404, redirect
+import csv
+import os
+from django.conf import settings
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+from .models import QuizResult
+from datetime import timedelta
+from django.utils import timezone
+from django.db.models import Q
+from chat.models import ChatMessage   
+
+
+
 def indexpage(request):
     return render(request,'index.html')
 def homepage(request):
@@ -59,8 +74,7 @@ def about(request):
 def how_it_works(request):
     return render(request, 'how-it-works.html')
 
-from django.contrib import messages
-from django.contrib.auth.models import User
+
 
 def signup_view(request):
     if request.method == "POST":
@@ -83,7 +97,7 @@ def signup_view(request):
             password=password1
         )
 
-        login(request, user)   # 🔥 THIS IS THE KEY LINE
+        login(request, user)   
         return redirect('home')
 
     return render(request, 'signup.html')
@@ -108,7 +122,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect("home")   # 👈 THIS was missing
+            return redirect("home")   
         else:
             messages.error(request, "Invalid email or password")
 
@@ -125,33 +139,28 @@ def profile_view(request):
     print("METHOD:", request.method)
     print("POST:", request.POST)
     profile, created = Profile.objects.get_or_create(user=request.user)
-    subjects_list = ["Maths-1", "Data Structures", "DBMS", "Java", "Physics"]  # Your subjects
+    subjects_list = ["Maths-1", "Data Structures", "DBMS", "Java", "Physics"]  
     levels_list = ["Beginner", "Intermediate", "Advanced"]
 
     if request.method == "POST":
 
-        # Update subjects
         selected_subjects = request.POST.getlist("subjects")
         profile.subjects = selected_subjects
 
-        # Update levels for each subject
         levels_dict = {}
         for subject in selected_subjects:
             level_value = request.POST.get(f"level_{subject}", "Beginner")
             levels_dict[subject] = level_value
         profile.levels = levels_dict
 
-        # Update study hours
         study_hours = request.POST.get("study_hours", 4)
         profile.study_hours = int(study_hours)
 
-        # Save changes to DB
         profile.save()
 
-        # Add success message
         messages.success(request, "Profile updated successfully!")
 
-        return redirect("profile")  # redirect to refresh page and show message
+        return redirect("profile")  
 
     return render(request, "profile.html", {
         "profile": profile,
@@ -171,16 +180,11 @@ def schedule_view(request):
 
     return render(request, "schedule.html", {"profile": profile})
 
-
-
-
-# website/views.py
-
 @login_required
 def chat_view(request):
     user_profile = Profile.objects.get(user=request.user)
 
-    # Accepted requests where the user is sender or receiver
+    
     accepted_sent = StudyBuddyRequest.objects.filter(
         sender=request.user, status="accepted"
     ).values_list("receiver", flat=True)
@@ -188,10 +192,8 @@ def chat_view(request):
         receiver=request.user, status="accepted"
     ).values_list("sender", flat=True)
 
-    # Combine IDs
     accepted_ids = list(accepted_sent) + list(accepted_received)
 
-    # Get Profile objects of accepted buddies
     accepted_buddies = Profile.objects.filter(user__id__in=accepted_ids)
 
     return render(request, "chat/chat.html", {"accepted_buddies": accepted_buddies})
@@ -205,14 +207,11 @@ def quiz_view(request):
 
     context = {
         "user_id": request.user.id,
-        "subjects": profile.subjects,      # list
-        "levels": profile.levels,           # dict
+        "subjects": profile.subjects,      
+        "levels": profile.levels,           
     }
     return render(request, "quiz.html", context)
 
-from .models import StudyBuddyRequest, Profile, User
-
-from django.shortcuts import get_object_or_404
 
 @login_required
 def send_request_view(request):
@@ -220,7 +219,6 @@ def send_request_view(request):
         receiver_id = request.POST.get('receiver_id')
         receiver = get_object_or_404(User, id=receiver_id)
 
-        # Check if request already exists
         existing_request = StudyBuddyRequest.objects.filter(
             sender=request.user,
             receiver=receiver
@@ -247,13 +245,11 @@ def match_view(request):
     for p in all_profiles:
         shared_subjects = []
 
-        # Loop through user's subjects
         for subject in user_profile.subjects.all():
             if subject in p.subjects.all():
-                # Append both name and progress
                 shared_subjects.append({
                     'name': subject.name,
-                    'level': subject.level  # or progress field if you named it differently
+                    'level': subject.level  
                 })
 
         buddies.append({
@@ -262,14 +258,13 @@ def match_view(request):
             'shared_subjects': shared_subjects
         })
 
-    # IDs of users to whom requests have already been sent
     sent_request_ids = [r.receiver.id for r in request.user.sent_requests.all()]
 
     return render(request, 'match.html', {
         'buddies': buddies,
         'sent_request_ids': sent_request_ids
     })
-from .models import StudyBuddyRequest
+
 
 @login_required(login_url='login')
 def request_view(request):
@@ -288,7 +283,7 @@ def request_view(request):
         'accepted_requests': accepted_requests
     })
 
-from django.shortcuts import get_object_or_404, redirect
+
 
 @login_required(login_url='login')
 def accept_request(request, request_id):
@@ -314,10 +309,6 @@ def decline_request(request, request_id):
     return redirect('requests')
 
 # views.py
-import csv
-import os
-from django.conf import settings
-from django.http import JsonResponse
 
 
 def quiz_data(request):
@@ -342,14 +333,11 @@ def quiz_data(request):
                     row["option3"],
                     row["option4"],
                 ],
-                "correct": int(row["correct"]) - 1,  # JS uses index
+                "correct": int(row["correct"]) - 1,
                 "exp": row["explanation"]
             })
 
     return JsonResponse(data)
-import json
-from django.views.decorators.csrf import csrf_exempt
-from .models import QuizResult
 
 @login_required
 @csrf_exempt
@@ -369,9 +357,6 @@ def save_quiz_result(request):
 
     return JsonResponse({"status": "error"})
 
-from datetime import timedelta
-from django.utils import timezone
-from .models import QuizResult
 
 @login_required
 def home_view(request):
@@ -398,10 +383,6 @@ def home_view(request):
         "weekly_avg": avg,
         "progress_level": level,
     })
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from chat.models import ChatMessage   # import from chat
 
 
 @login_required

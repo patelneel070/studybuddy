@@ -17,13 +17,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.user_id = self.scope["user"].id
         self.buddy_id = int(self.scope["url_route"]["kwargs"]["buddy_id"])
 
-        # ✅ Security check
         allowed = await self.check_accepted_buddy(self.user_id, self.buddy_id)
         if not allowed:
             await self.close()
             return
 
-        # consistent room id
         low = min(self.user_id, self.buddy_id)
         high = max(self.user_id, self.buddy_id)
         self.room_group_name = f"chat_{low}_{high}"
@@ -34,7 +32,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-        print("✅ Connected:", self.room_group_name)
+        print(" Connected:", self.room_group_name)
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -49,10 +47,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if not message:
             return
 
-        # ✅ save message
         await self.save_message(self.user_id, self.buddy_id, message)
 
-        # send to room
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -68,7 +64,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "sender": event["sender"],
         }))
 
-    # ================= DB FUNCTIONS =================
 
     @database_sync_to_async
     def check_accepted_buddy(self, user_id, buddy_id):
