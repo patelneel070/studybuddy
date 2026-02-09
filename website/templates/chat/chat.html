@@ -9,9 +9,9 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <style>
     .chat-buddy-item { cursor: pointer; padding: 0.5rem; display: block; border-bottom: 1px solid #ddd; }
-    .chat-buddy-item:hover { background: #f1f1f1; }
-    .chat-bubble-sent { background: #0d6efd; color: #fff; padding: 0.5rem 1rem; border-radius: 1rem; max-width: 70%; }
-    .chat-bubble-received { background: #e9ecef; padding: 0.5rem 1rem; border-radius: 1rem; max-width: 70%; }
+    .chat-buddy-item:hover { background: #131acc; }
+    .chat-bubble-sent { background: #0d6efd; color: #c3fe00; padding: 0.5rem 1rem; border-radius: 1rem; max-width: 70%; }
+    .chat-bubble-received { background: #db600d; padding: 0.5rem 1rem; border-radius: 1rem; max-width: 70%; }
     .chat-messages { height: 400px; overflow-y: auto; }
     #chatArea { display: none; }
   </style>
@@ -19,6 +19,9 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
     <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+          <img src="{% static 'images/logo.png' %}" alt="??" class="nav-logo">
+      </a>
       <a class="navbar-brand" href="{% url 'index'%}">StudyBuddy</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
