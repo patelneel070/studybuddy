@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home – StudyBuddy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Public navbar: for guests (not logged in) -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index' %}">StudyBuddy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="{% url 'home_public' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'match' %}">Match</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'how-it-works' %}">How it works</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'sign-up' %}">Sign up</a></li>
+          <li class="nav-item d-flex align-items-center"><div class="theme-toggle-wrap"><input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode"><label for="themeToggle" class="theme-toggle-label"><span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span><span class="theme-toggle-slider"></span><span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></label></div></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content flex-grow-1">
+    <div class="container py-4">
+      <h1 class="mb-2">Welcome to StudyBuddy</h1>
+      <p class="home-hero-sub">Study smarter. Together. Find study buddies at your level, chat 1-on-1, and get AI-suggested schedules.</p>
+      <div class="home-stats mb-4">
+        <span class="home-stat"><strong>Match</strong> by progress</span>
+        <span class="home-stat"><strong>Chat</strong> 1-on-1</span>
+        <span class="home-stat"><strong>Schedule</strong> AI-suggested</span>
+      </div>
+      <p class="text-muted-study mb-4">Create an account to set your profile, find compatible study buddies, send requests, and chat. No account? Explore the links above to learn more.</p>
+      <a href="{% url 'sign-up' %}" class="btn btn-primary-study me-2">Sign up</a>
+      <a href="{% url 'login' %}" class="btn btn-outline-study">Login</a>
+
+      <div class="row g-4 mt-4">
+        <div class="col-md-4">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Match</h5>
+              <p class="card-text text-muted-study">See how we match you with buddies who share your subjects and have same or better progress.</p>
+              <a href="{% url 'match' %}" class="btn btn-outline-study btn-sm">View Match</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body">
+              <h5 class="card-title">About</h5>
+              <p class="card-text text-muted-study">Project intro, problem, tech stack, and purpose.</p>
+              <a href="{% url 'about' %}" class="btn btn-outline-study btn-sm">About us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <a href="{% url 'index' %}" class="footer-brand">StudyBuddy</a>
+          <p class="footer-tagline">Study smarter. Together.</p>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="footer-heading">Explore</div>
+          <ul class="footer-links">
+            <li><a href="{% url 'home_public' %}">Home</a></li>
+            <li><a href="{% url 'match' %}">Match</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'how-it-works' %}">How it works</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="footer-heading">Account</div>
+          <ul class="footer-links">
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'sign-up'%}">Sign up</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; StudyBuddy. For guests: explore Home, Match, About, and How it works. Sign up to use the full app.
+      </div>
+    </div>
+  </footer>
+   <script src="{% static 'js/config.js' %}"></script>
+  <script src="{% static 'js/api.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+/* StudyBuddy theme */
+(function(g){'use strict';var K='studybuddy_theme';function getTheme(){try{var s=localStorage.getItem(K);return s==='light'||s==='dark'?s:'dark';}catch(e){return 'dark';}}
+function setTheme(t){t=t==='light'?'light':'dark';try{localStorage.setItem(K,t);}catch(e){}document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i)i.checked=(t==='light');}
+function init(){var t=getTheme();document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i){i.checked=(t==='light');i.addEventListener('change',function(){setTheme(i.checked?'light':'dark');});}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();g.StudyBuddyTheme={getTheme:getTheme,setTheme:setTheme,init:init};})(typeof window!=='undefined'?window:this);
+/* StudyBuddy auth */
+(function(g){'use strict';var USERS='studybuddy_users',CURRENT='studybuddy_current_user';
+function getUsers(){try{var r=localStorage.getItem(USERS);return r?JSON.parse(r):[];}catch(e){return [];}}
+function setUsers(u){localStorage.setItem(USERS,JSON.stringify(u));}
+function getCurrentUser(){try{var r=localStorage.getItem(CURRENT);return r?JSON.parse(r):null;}catch(e){return null;}}
+function setCurrentUser(u){if(u)localStorage.setItem(CURRENT,JSON.stringify(u));else localStorage.removeItem(CURRENT);}
+function signup(name,email,password,confirmPassword){name=(name||'').trim();email=(email||'').trim().toLowerCase();if(!name)return{success:false,message:'Name is required.'};if(!email)return{success:false,message:'Email is required.'};if(!password||password.length<6)return{success:false,message:'Password must be at least 6 characters.'};if(password!==confirmPassword)return{success:false,message:'Passwords do not match.'};var users=getUsers();if(users.some(function(u){return(u.email||'').toLowerCase()===email;}))return{success:false,message:'An account with this email already exists.'};var user={id:'user_'+Date.now(),name:name,email:email,password:password};users.push(user);setUsers(users);return{success:true};}
+function login(email,password){email=(email||'').trim().toLowerCase();if(!email)return{success:false,message:'Email is required.'};if(!password)return{success:false,message:'Password is required.'};var users=getUsers();var user=users.find(function(u){return(u.email||'').toLowerCase()===email;});if(!user||user.password!==password)return{success:false,message:'Invalid email or password.'};setCurrentUser({id:user.id,name:user.name,email:user.email});return{success:true};}
+function logout(){setCurrentUser(null);}
+g.StudyBuddyAuth={getUsers:getUsers,getCurrentUser:getCurrentUser,setCurrentUser:setCurrentUser,signup:signup,login:login,logout:logout};})(typeof window!=='undefined'?window:this);
+  </script>
+  <script>
+    if (window.StudyBuddyAuth && window.StudyBuddyAuth.getCurrentUser()) {
+      var main = document.querySelector('.main-content .container');
+      if (main) {
+        var alert = document.createElement('div');
+        alert.className = 'alert alert-study alert-info mb-4';
+        alert.innerHTML = 'You\'re logged in. <a href="{% url "home" %}" style="color: inherit; font-weight: 600;">Go to Dashboard</a>';
+        main.insertBefore(alert, main.firstChild);
+      }
+    }
+  </script>
+</body>
+</html>

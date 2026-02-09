@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Quiz – StudyBuddy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!--  NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
+  <div class="container">
+    <a class="navbar-brand" href="#">StudyBuddy</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'match_simp' %}">Match</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'chat' %}">Chat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'requests' %}">Requests</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'schedule' %}">Schedule</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{% url 'quiz' %}">Quiz</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about_m' %}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Logout</a></li>
+        <input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode">
+          <label for="themeToggle" class="theme-toggle-label">
+            <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </span>
+            <span class="theme-toggle-slider"></span>
+            <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </span>
+          </label>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ MAIN QUIZ -->
+<div class="container py-4">
+
+  <h2 class="mb-3">Daily Quiz</h2>
+
+  <!-- SUBJECT SELECTION -->
+  <div id="subjectBox">
+    <h5>Select Subject</h5>
+    <div id="subjectList" class="d-flex flex-wrap gap-2"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizBox" class="d-none">
+    <p class="text-muted">
+      Question <span id="qNum"></span> / <span id="qTotal"></span>
+    </p>
+    <h5 id="qText"></h5>
+    <div id="options"></div>
+    <button class="btn btn-primary mt-3" id="nextBtn">Next</button>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultBox" class="d-none">
+    <h4>Quiz Result</h4>
+    <p>You scored <b id="scoreText"></b></p>
+    <div id="review"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Django data -->
+{{ user_id|json_script:"user-id" }}
+{{ subjects|json_script:"user-subjects" }}
+{{ levels|json_script:"user-levels" }}
+
+<script>
+let currentSubject = "";
+
+/* ================= DJANGO DATA ================= */
+const USER_ID = JSON.parse(document.getElementById("user-id").textContent);
+const USER_SUBJECTS = JSON.parse(document.getElementById("user-subjects").textContent);
+const USER_LEVELS = JSON.parse(document.getElementById("user-levels").textContent);
+
+/* ================= QUESTIONS ================= */
+let QUESTIONS = {};
+
+fetch("/quiz/data/")
+  .then(res => res.json())
+  .then(data => {
+    QUESTIONS = data;
+    enableSubjectButtons();
+  })
+  .catch(err => console.error("Failed loading questions:", err));
+
+/* ================= QUIZ STATE ================= */
+let current = 0;
+let answers = [];
+let currentQuestions = [];
+
+const subjectBox = document.getElementById("subjectBox");
+const subjectList = document.getElementById("subjectList");
+const quizBox = document.getElementById("quizBox");
+const resultBox = document.getElementById("resultBox");
+
+const qNum = document.getElementById("qNum");
+const qTotal = document.getElementById("qTotal");
+const qText = document.getElementById("qText");
+const optionsDiv = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+
+/* ================= SUBJECT BUTTONS ================= */
+USER_SUBJECTS.forEach(sub => {
+  const btn = document.createElement("button");
+  btn.className = "btn btn-outline-primary";
+  btn.innerText = sub;
+  btn.disabled = true;
+  btn.onclick = () => startQuiz(sub);
+  subjectList.appendChild(btn);
+});
+
+function enableSubjectButtons() {
+  document.querySelectorAll("#subjectList button").forEach(btn => {
+    btn.disabled = false;
+  });
+}
+
+/* ================= START QUIZ ================= */
+function getQuestionCount(level) {
+  if (level === "Beginner") return 10;
+  if (level === "Intermediate") return 15;
+  if (level === "Advanced") return 20;
+  return 10;
+}
+
+function startQuiz(subject) {
+  currentSubject = subject;
+  subjectBox.classList.add("d-none");
+  quizBox.classList.remove("d-none");
+
+  current = 0;
+  answers = [];
+
+  const level = USER_LEVELS[subject] || "Beginner";
+  const count = getQuestionCount(level);
+
+  const subjectQuestions = QUESTIONS[subject] || [];
+
+  currentQuestions = subjectQuestions
+    .sort(() => 0.5 - Math.random())
+    .slice(0, count);
+
+  if (currentQuestions.length === 0) {
+    alert("No questions available for this subject yet.");
+    subjectBox.classList.remove("d-none");
+    quizBox.classList.add("d-none");
+    return;
+  }
+
+  qTotal.innerText = currentQuestions.length;
+  renderQuestion();
+}
+
+/* ================= RENDER ================= */
+function renderQuestion() {
+  const q = currentQuestions[current];
+  qNum.innerText = current + 1;
+  qText.innerText = q.q;
+  optionsDiv.innerHTML = "";
+
+  q.options.forEach((opt, i) => {
+    optionsDiv.innerHTML += `
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="opt" value="${i}">
+        <label class="form-check-label">${opt}</label>
+      </div>`;
+  });
+
+  nextBtn.innerText =
+    current === currentQuestions.length - 1 ? "Submit" : "Next";
+}
+
+/* ================= NEXT ================= */
+nextBtn.onclick = () => {
+  const selected = document.querySelector("input[name='opt']:checked");
+  if (!selected) return alert("Select an option");
+
+  answers[current] = parseInt(selected.value);
+
+  if (current < currentQuestions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+};
+
+/* ================= RESULT ================= */
+function showResult() {
+  quizBox.classList.add("d-none");
+  resultBox.classList.remove("d-none");
+
+  let score = 0;
+  const review = document.getElementById("review");
+  review.innerHTML = "";
+
+  currentQuestions.forEach((q, i) => {
+    const correct = answers[i] === q.correct;
+    if (correct) score++;
+
+    review.innerHTML += `
+      <div class="border p-2 mb-2">
+        <b>Q${i+1}:</b> ${q.q}<br>
+        Your answer: ${q.options[answers[i]]}<br>
+        ${correct ? "✅ Correct" : "❌ Wrong<br><b>Explanation:</b> " + q.exp}
+      </div>`;
+  });
+
+  document.getElementById("scoreText").innerText =
+    score + " / " + currentQuestions.length;
+
+  saveResult(score);
+}
+
+/* ================= SAVE ================= */
+function saveResult(score) {
+  fetch("/quiz/save/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      subject: currentSubject,
+      score: score,
+      total: currentQuestions.length,
+    }),
+  })
+  .then(res => res.json())
+  .then(data => console.log("Saved:", data))
+  .catch(err => console.error("Save failed:", err));
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How it works – StudyBuddy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!-- Public navbar: for guests -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index' %}">StudyBuddy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link " href="{% url 'home_public' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'match' %}">Match</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="{% url 'how-it-works' %}">How it works</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'sign-up' %}">Sign up</a></li>
+          <li class="nav-item d-flex align-items-center"><div class="theme-toggle-wrap"><input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode"><label for="themeToggle" class="theme-toggle-label"><span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span><span class="theme-toggle-slider"></span><span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span></label></div></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container py-4">
+      <h1 class="mb-2">How it works</h1>
+      <p class="text-muted-study mb-4">Four steps for B.Tech students: find study buddies, take subject quizzes, and get an AI-suggested schedule.</p>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card card-study">
+            <div class="card-body p-4">
+              <div class="how-it-works-step active">
+                <strong>1. Sign up and set your profile</strong><br>
+                <span class="text-muted-study">Create an account, then select your semester (subjects are shown by semester), choose subjects and your progress level per subject (Beginner / Intermediate / Advanced), and study hours per day.</span>
+              </div>
+              <div class="how-it-works-step">
+                <strong>2. Get matched with compatible buddies</strong><br>
+                <span class="text-muted-study">We show study buddies who share at least one subject with you and have the same or better progress level in those subjects—so you can learn together effectively.</span>
+              </div>
+              <div class="how-it-works-step">
+                <strong>3. Send requests and chat</strong><br>
+                <span class="text-muted-study">Send a request to a buddy. When they accept (simulated in the demo), they appear on your Requests and Chat pages. Open a 1-on-1 chat with any accepted buddy.</span>
+              </div>
+              <div class="how-it-works-step">
+                <strong>4. Follow your AI schedule</strong><br>
+                <span class="text-muted-study">Take subject-wise daily quizzes (one per subject per day) and view your AI-suggested study schedule based on your B.Tech subjects, progress levels, and available hours.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-study">
+            <div class="card-body p-4">
+              <h5 class="card-title mb-3">Ready to start?</h5>
+              <p class="card-text text-muted-study small mb-3">Sign up to create your profile, find buddies, send requests, and chat.</p>
+              <a href="{% url 'sign-up' %}" class="btn btn-primary-study w-100 mb-2">Sign up</a>
+              <a href="{% url 'login' %}" class="btn btn-outline-study w-100">Login</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="{% static 'js/config.js' %}"></script>
+  <script src="{% static 'js/api.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+/* StudyBuddy theme toggle */
+(function(global) {
+  'use strict';
+  var STORAGE_KEY = 'studybuddy_theme';
+  function getTheme() {
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      return saved === 'light' || saved === 'dark' ? saved : 'dark';
+    } catch (e) { return 'dark'; }
+  }
+  function setTheme(theme) {
+    theme = theme === 'light' ? 'light' : 'dark';
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+    document.documentElement.setAttribute('data-theme', theme);
+    var input = document.getElementById('themeToggle');
+    if (input) input.checked = (theme === 'light');
+  }
+  function init() {
+    var theme = getTheme();
+    document.documentElement.setAttribute('data-theme', theme);
+    var input = document.getElementById('themeToggle');
+    if (input) {
+      input.checked = (theme === 'light');
+      input.addEventListener('change', function() { setTheme(input.checked ? 'light' : 'dark'); });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+  global.StudyBuddyTheme = { getTheme: getTheme, setTheme: setTheme, init: init };
+})(typeof window !== 'undefined' ? window : this);
+  </script>
+</body>
+</html>

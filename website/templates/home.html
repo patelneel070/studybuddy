@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home – StudyBuddy</title>
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('studybuddy_theme') || 'dark');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'index' %}">StudyBuddy</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'match_simp' %}">Match</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'chat' %}">Chat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'requests' %}">Requests</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'schedule' %}">Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'quiz' %}">Quiz</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about_m' %}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Logout</a></li>
+
+        <!-- Theme toggle -->
+        <li class="nav-item d-flex align-items-center ms-3">
+          <input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode">
+          <label for="themeToggle" class="theme-toggle-label mb-0 ms-1">
+            <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </span>
+            <span class="theme-toggle-slider"></span>
+            <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </span>
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <main class="main-content flex-grow-1">
+    <div class="container py-4">
+      <!-- Welcome & quick stats -->
+      <h1 class="mb-2">Welcome, <span id="userName">{{ user }}</span></h1>
+      <p class="home-hero-sub">For B.Tech students. Your dashboard to find study buddies, chat, take subject quizzes, and follow an AI-suggested schedule.</p>
+      <div class="home-stats">
+        <span class="home-stat"><strong>Match</strong> by progress</span>
+        <span class="home-stat"><strong>Chat</strong> 1-on-1</span>
+        <span class="home-stat"><strong>Schedule</strong> AI-suggested</span>
+      </div>
+
+      <!-- Weekly Progress section -->
+      <section class="weekly-progress-section mb-5" aria-label="Weekly progress">
+        <h2 class="h5 text-muted-study mb-3">Weekly Progress</h2>
+        <div class="card card-study">
+          <div class="card-body p-4">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <p class="text-secondary small mb-1">Weekly average quiz score</p>
+                <p class="mb-2"><strong id="weeklyQuizAvg">{{ weekly_avg }}%</strong></p>
+                <div class="progress progress-study" style="height: 8px;">
+                  <div class="progress-bar bg-study" id="weeklyQuizBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <p class="text-secondary small mb-1">Current progress level</p>
+                <p class="mb-0"><span id="progressLevel">{{ progress_level }}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick action cards -->
+      <h2 class="h5 text-muted-study mb-3">Quick actions</h2>
+      <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Complete Profile</h5>
+              <p class="card-text text-muted-study flex-grow-1">Set your semester, subjects, progress level, and study hours so we can match you better.</p>
+              <a href="{% url 'profile' %}" class="btn btn-primary-study align-self-start">Go to Profile</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Find Study Buddy</h5>
+              <p class="card-text text-muted-study flex-grow-1">Get matched with B.Tech students at your level. Start a chat when they accept.</p>
+              <a href="{% url 'match_simp' %}" class="btn btn-primary-study align-self-start">Find Match</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">View Schedule</h5>
+              <p class="card-text text-muted-study flex-grow-1">See your AI-suggested daily study plan based on your profile.</p>
+              <a href="{% url 'schedule' %}" class="btn btn-primary-study align-self-start">View Schedule</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Open Chat</h5>
+              <p class="card-text text-muted-study flex-grow-1">Chat 1-on-1 with study buddies who have accepted your request.</p>
+              <a href="{% url 'chat' %}" class="btn btn-primary-study align-self-start">Open Chat</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-study feature-card h-100">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">Daily Quiz</h5>
+              <p class="card-text text-muted-study flex-grow-1">One quiz per subject per day (B.Tech subjects). Track your weekly progress here.</p>
+              <a href="{% url 'chat' %}" class="btn btn-primary-study align-self-start">Take Quiz</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div class="row mb-5">
+        <div class="col-lg-8">
+          <h2 class="h5 text-muted-study mb-3">How it works</h2>
+          <div class="card card-study">
+            <div class="card-body p-4">
+              <div class="how-it-works-step active">
+                <strong>1. Set your profile</strong><br>
+                <span class="text-muted-study">Set your semester to see your subjects (by sem: Maths-1, Data Structures, DBMS, Java), then choose progress level per subject and study hours per day.</span>
+              </div>
+              <div class="how-it-works-step">
+                <strong>2. Get matched</strong><br>
+                <span class="text-muted-study">We suggest B.Tech study buddies whose progress matches or is slightly ahead of yours so you can learn together.</span>
+              </div>
+              <div class="how-it-works-step">
+                <strong>3. Take quizzes & chat</strong><br>
+                <span class="text-muted-study">Take subject-wise daily quizzes and see solutions for wrong answers. Send a chat request from Match; when they accept, chat 1-on-1 on the Chat page.</span>
+              </div>
+              <div class="how-it-works-step">
+                <strong>4. Follow your schedule</strong><br>
+                <span class="text-muted-study">Use the AI-suggested daily schedule based on your B.Tech subjects, level, and available hours.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <h2 class="h5 text-muted-study mb-3">Why StudyBuddy?</h2>
+          <div class="card card-study">
+            <div class="card-body p-4">
+              <ul class="mb-0 text-muted-study" style="list-style: none; padding-left: 0;">
+                <li class="mb-2">✓ Progress-based matching—study with B.Tech peers at your level</li>
+                <li class="mb-2">✓ Subject-wise daily quiz with solutions for wrong answers</li>
+                <li class="mb-2">✓ 1-on-1 chat with accepted buddies only</li>
+                <li class="mb-0">✓ AI-suggested schedule for your B.Tech subjects and time</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="card card-study mb-0">
+        <div class="card-body p-4 text-center">
+          <p class="mb-2">New here? Complete your <a href="{% url 'profile' %}" style="color: var(--accent);">profile</a> first, then head to <a href="{% url 'match_simp' %}" style="color: var(--accent);">Match</a> to find your study buddies.</p>
+          <p class="text-muted-study small mb-0">Learn more on the <a href="{% url 'about_m' %}" style="color: var(--accent);">About</a> page.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <a href="{% url 'index' %}" class="footer-brand">StudyBuddy</a>
+          <p class="footer-tagline">Study smarter. Together.</p>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="footer-heading">Product</div>
+          <ul class="footer-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'match_simp' %}">Match</a></li>
+            <li><a href="{% url 'chat' %}">Chat</a></li>
+            <li><a href="{% url 'schedule' %}">Schedule</a></li>
+            <li><a href="{% url 'quiz' %}">Quiz</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-2">
+          <div class="footer-heading">Company</div>
+          <ul class="footer-links">
+            <li><a href="{% url 'about_m' %}">About</a></li>
+            <li><a href="{% url 'home' %}">Landing</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; StudyBuddy. For B.Tech students—study partner matching, quizzes, and AI schedule. Django backend.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="{% static 'js/config.js' %}"></script>
+  <script src="{% static 'js/api.js' %}"></script>
+  <script src="js/auth-bridge.js"></script> -->
+  <script>
+/* StudyBuddy theme */
+(function(g){'use strict';
+      var K='studybuddy_theme';
+      function getTheme(){try{var s=localStorage.getItem(K);return s==='light'||s==='dark'?s:'dark';}catch(e){return 'dark';}}
+      function setTheme(t){t=t==='light'?'light':'dark';try{localStorage.setItem(K,t);}catch(e){}document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i)i.checked=(t==='light');}
+      function init(){var t=getTheme();document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i){i.checked=(t==='light');i.addEventListener('change',function(){setTheme(i.checked?'light':'dark');});}}
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+      g.StudyBuddyTheme={getTheme:getTheme,setTheme:setTheme,init:init};
+    })(typeof window!=='undefined'?window:this);
+  </script>
+</body>
+</html>

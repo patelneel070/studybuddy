@@ -1,0 +1,40 @@
+subject,level,question,option1,option2,option3,option4,correct,explanation
+Maths-1,Beginner,Derivative of x^2?,2x,x,1,0,0,Power rule
+Maths-1,Beginner,Value of pi (approx)?,2.14,3.14,4.13,3.41,1,Common approximation
+Maths-1,Beginner,Integral of 1 dx?,x,1,0,x^2,0,Integral rule
+Maths-1,Intermediate,Integral of sin x?,cos x,-cos x,sin x,-sin x,1,Standard formula
+Maths-1,Intermediate,Derivative of ln x?,1,x,log x,0,0,Basic derivative
+Maths-1,Advanced,Determinant of identity matrix?,0,1,n,undefined,1,Always 1
+Maths-1,Advanced,Eigenvalues depend on?,Matrix,Vector,Scalar,Index,0,From matrix
+
+Data Structures,Beginner,Which uses FIFO?,Stack,Queue,Tree,Graph,1,Queue
+Data Structures,Beginner,Which uses LIFO?,Queue,Array,Stack,Graph,2,Stack rule
+Data Structures,Beginner,Top operation is in?,Queue,Stack,Tree,Graph,1,Stack
+Data Structures,Intermediate,Binary search complexity?,O(n),O(log n),O(1),O(n log n),1,Divide method
+Data Structures,Intermediate,Heap is?,Sorted tree,Complete binary tree,Graph,List,1,Heap property
+Data Structures,Advanced,AVL tree is?,Unbalanced,Self balancing,Heap,Binary search,1,Balances height
+Data Structures,Advanced,DFS uses?,Queue,Stack,Array,Tree,1,Stack internally
+
+DBMS,Beginner,ACID stands for?,Atomicity Consistency Isolation Durability,None,None,None,0,Transaction rules
+DBMS,Beginner,Full form of DBMS?,Data Base Mgmt System,None,None,None,0,Expansion
+DBMS,Beginner,SQL stands for?,Structured Query Language,None,None,None,0,Standard
+DBMS,Intermediate,Primary key must be?,Null,Unique,Duplicate,Optional,1,Uniqueness
+DBMS,Intermediate,Foreign key is used for?,Relation,Deletion,Indexing,Sorting,0,Table link
+DBMS,Advanced,Which NF removes transitive dependency?,1NF,2NF,3NF,BCNF,2,3NF
+DBMS,Advanced,Index improves?,Speed,Size,Security,None,0,Faster queries
+
+Java,Beginner,JVM stands for?,Java Virtual Machine,Java Visual Model,JS VM,None,0,Executes bytecode
+Java,Beginner,Java is?,Compiled,Interpreted,Both,None,2,Hybrid
+Java,Beginner,Extension of Java bytecode?,.java,.class,.jar,.exe,1,Compiled file
+Java,Intermediate,String is?,Mutable,Immutable,Flexible,None,1,Cannot change
+Java,Intermediate,Parent of all classes?,Object,String,System,Main,0,Top class
+Java,Advanced,Which GC is low latency?,Serial,Parallel,G1,ZGC,3,Modern GC
+Java,Advanced,Stream API introduced in?,Java 5,Java 6,Java 8,Java 11,2,Functional ops
+
+Physics,Beginner,Unit of force?,Newton,Joule,Watt,Pascal,0,SI unit
+Physics,Beginner,Unit of power?,Joule,Watt,Newton,Volt,1,SI
+Physics,Beginner,Gravity discovered by?,Newton,Einstein,Tesla,Edison,0,Apple story
+Physics,Intermediate,Formula of speed?,d/t,t/d,dt,d+t,0,Basic
+Physics,Intermediate,Unit of frequency?,Hertz,Newton,Joule,Watt,0,Hz
+Physics,Advanced,Speed of light?,3e8,3e6,3e5,3e7,0,m/s
+Physics,Advanced,Ohm law?,V=IR,I=VR,R=VI,P=VI,0,Relation

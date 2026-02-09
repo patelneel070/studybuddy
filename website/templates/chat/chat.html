@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat – StudyBuddy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .chat-buddy-item { cursor: pointer; padding: 0.5rem; display: block; border-bottom: 1px solid #ddd; }
+    .chat-buddy-item:hover { background: #f1f1f1; }
+    .chat-bubble-sent { background: #0d6efd; color: #fff; padding: 0.5rem 1rem; border-radius: 1rem; max-width: 70%; }
+    .chat-bubble-received { background: #e9ecef; padding: 0.5rem 1rem; border-radius: 1rem; max-width: 70%; }
+    .chat-messages { height: 400px; overflow-y: auto; }
+    #chatArea { display: none; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index'%}">StudyBuddy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'match_simp' %}">Match</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'chat' %}">Chat</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'requests' %}">Requests</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'schedule' %}">Schedule</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'quiz' %}">Quiz</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about_m' %}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Logout</a></li>
+
+        <!-- Theme toggle -->
+        <li class="nav-item d-flex align-items-center ms-3">
+          <input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode">
+          <label for="themeToggle" class="theme-toggle-label mb-0 ms-1">
+            <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </span>
+            <span class="theme-toggle-slider"></span>
+            <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            </span>
+          </label>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container py-4">
+      <h1>Chat</h1>
+      <div class="row g-4">
+        <!-- Buddy list -->
+        <div class="col-md-4 col-lg-3">
+          <div class="chat-buddy-list border rounded p-2">
+            <div class="chat-buddy-list-header fw-bold mb-2">Accepted study buddies</div>
+            <div id="buddyListContent">
+              {% if accepted_buddies %}
+                <div id="buddyListItems">
+                  {% for buddy in accepted_buddies %}
+                    <a href="#" class="chat-buddy-item" data-buddy-id="{{ buddy.user.id }}" data-buddy-name="{{ buddy.user.username }}">
+                      {{ buddy.user.username }}
+                    </a>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="text-muted">No buddies yet. Go to <a href="{% url 'match_simp' %}">Match</a> to connect.</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat area -->
+        <div class="col-md-8 col-lg-9">
+          <div class="card card-study">
+            <div class="card-header d-flex justify-content-between">
+              <h5>Chat with <span id="chatBuddyName">—</span></h5>
+              <span class="badge bg-secondary">1-on-1</span>
+            </div>
+            <div class="card-body p-4">
+              <div id="chatArea">
+                <div class="chat-messages bg-light p-2 rounded" id="chatMessages"></div>
+                <form id="chatForm" class="d-flex gap-2 mt-2">
+                  <input type="text" id="chatInput" class="form-control" placeholder="Type a message..." autocomplete="off">
+                  <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+              </div>
+              <div id="chatPlaceholder" class="text-muted">
+                Select a buddy to start chatting.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  const USER_ID = Number("{{ request.user.id }}");
+  const chatMessages = document.getElementById("chatMessages");
+  const chatForm = document.getElementById("chatForm");
+  const chatInput = document.getElementById("chatInput");
+  const chatBuddyName = document.getElementById("chatBuddyName");
+  const chatArea = document.getElementById("chatArea");
+  const chatPlaceholder = document.getElementById("chatPlaceholder");
+
+  let chatSocket = null;
+
+  // ================= LOAD HISTORY =================
+  async function loadHistory(buddyId) {
+    chatMessages.innerHTML = "";
+
+    try {
+      const res = await fetch(`/chat/messages/${buddyId}/`);
+      const data = await res.json();
+
+      data.messages.forEach(msg => {
+        const isSender = Number(msg.sender) === USER_ID;
+        appendMessage(msg.message, isSender);
+      });
+    } catch (err) {
+      console.log("History load failed", err);
+    }
+  }
+
+  // ================= CONNECT SOCKET =================
+  function connectToChat(buddyId) {
+    if (chatSocket) chatSocket.close();
+
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    chatSocket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/${buddyId}/`);
+
+    chatSocket.onopen = () => console.log("✅ WebSocket connected");
+
+    chatSocket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      const isSender = Number(data.sender) === USER_ID;
+      appendMessage(data.message, isSender);
+    };
+
+    chatSocket.onclose = () => console.log("❌ WebSocket closed");
+  }
+
+  // ================= UI =================
+  function appendMessage(message, isSender) {
+    const bubble = document.createElement("div");
+    bubble.className = isSender
+      ? "chat-bubble-sent ms-auto mb-2"
+      : "chat-bubble-received mb-2";
+
+    bubble.innerText = message;
+    chatMessages.appendChild(bubble);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // ================= SEND MESSAGE =================
+  chatForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (!chatInput.value.trim()) return;
+    if (!chatSocket || chatSocket.readyState !== WebSocket.OPEN) return;
+
+    chatSocket.send(JSON.stringify({
+      message: chatInput.value,
+    }));
+
+    chatInput.value = "";
+  });
+
+  // ================= BUDDY CLICK =================
+  document.getElementById("buddyListItems")?.addEventListener("click", async (e) => {
+    const item = e.target.closest(".chat-buddy-item");
+    if (!item) return;
+
+    const buddyId = item.dataset.buddyId;
+    const buddyName = item.dataset.buddyName;
+
+    chatBuddyName.innerText = buddyName;
+    chatArea.style.display = "block";
+    chatPlaceholder.style.display = "none";
+
+    await loadHistory(buddyId);   // ⭐ load old messages first
+    connectToChat(buddyId);       // ⭐ then realtime
+  });
+</script>
+<script>
+/* StudyBuddy theme */
+(function(g){'use strict';
+      var K='studybuddy_theme';
+      function getTheme(){try{var s=localStorage.getItem(K);return s==='light'||s==='dark'?s:'dark';}catch(e){return 'dark';}}
+      function setTheme(t){t=t==='light'?'light':'dark';try{localStorage.setItem(K,t);}catch(e){}document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i)i.checked=(t==='light');}
+      function init(){var t=getTheme();document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i){i.checked=(t==='light');i.addEventListener('change',function(){setTheme(i.checked?'light':'dark');});}}
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+      g.StudyBuddyTheme={getTheme:getTheme,setTheme:setTheme,init:init};
+    })(typeof window!=='undefined'?window:this);
+  </script>
+
+</body>
+</html>
