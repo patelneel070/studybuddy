@@ -11,12 +11,12 @@
 
 <body>
 
-<!--  NAVBAR -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-          <img src="{% static 'images/logo.png' %}" alt="??" class="nav-logo">
-      </a>
+      <img src="{% static 'images/logo.png' %}" alt="logo" class="nav-logo">
+    </a>
     <a class="navbar-brand" href="#">StudyBuddy</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
@@ -56,7 +56,7 @@
   </div>
 </nav>
 
-<!-- ✅ MAIN QUIZ -->
+<!-- MAIN QUIZ -->
 <div class="container py-4">
 
   <h2 class="mb-3">Daily Quiz</h2>
@@ -183,6 +183,10 @@ function startQuiz(subject) {
 /* ================= RENDER ================= */
 function renderQuestion() {
   const q = currentQuestions[current];
+
+  // 🔥 IMPORTANT FIX → force number
+  q.correct = parseInt(q.correct);
+
   qNum.innerText = current + 1;
   qText.innerText = q.q;
   optionsDiv.innerHTML = "";
@@ -224,14 +228,23 @@ function showResult() {
   review.innerHTML = "";
 
   currentQuestions.forEach((q, i) => {
-    const correct = answers[i] === q.correct;
+    const correct =
+      parseInt(answers[i]) === parseInt(q.correct);
+
     if (correct) score++;
 
     review.innerHTML += `
       <div class="border p-2 mb-2">
         <b>Q${i+1}:</b> ${q.q}<br>
         Your answer: ${q.options[answers[i]]}<br>
-        ${correct ? "✅ Correct" : "❌ Wrong<br><b>Explanation:</b> " + q.exp}
+        ${
+          correct
+            ? "✅ Correct"
+            : "❌ Wrong<br><b>Correct:</b> " +
+              q.options[q.correct] +
+              "<br><b>Explanation:</b> " +
+              q.exp
+        }
       </div>`;
   });
 
@@ -259,6 +272,12 @@ function saveResult(score) {
   .catch(err => console.error("Save failed:", err));
 }
 </script>
-
+<script>
+/* StudyBuddy theme */
+(function(g){'use strict';var K='studybuddy_theme';function getTheme(){try{var s=localStorage.getItem(K);return s==='light'||s==='dark'?s:'dark';}catch(e){return 'dark';}}
+function setTheme(t){t=t==='light'?'light':'dark';try{localStorage.setItem(K,t);}catch(e){}document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i)i.checked=(t==='light');}
+function init(){var t=getTheme();document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i){i.checked=(t==='light');i.addEventListener('change',function(){setTheme(i.checked?'light':'dark');});}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();g.StudyBuddyTheme={getTheme:getTheme,setTheme:setTheme,init:init};})(typeof window!=='undefined'?window:this);
+  </script>
 </body>
 </html>

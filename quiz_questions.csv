@@ -3,7 +3,7 @@ Maths-1,Beginner,Derivative of x^2?,2x,x,1,0,0,Power rule
 Maths-1,Beginner,Value of pi (approx)?,2.14,3.14,4.13,3.41,1,Common approximation
 Maths-1,Beginner,Integral of 1 dx?,x,1,0,x^2,0,Integral rule
 Maths-1,Intermediate,Integral of sin x?,cos x,-cos x,sin x,-sin x,1,Standard formula
-Maths-1,Intermediate,Derivative of ln x?,1,x,log x,0,0,Basic derivative
+Maths-1,Intermediate,Derivative of ln x?,1/x,x,log x,0,0,Basic derivative
 Maths-1,Advanced,Determinant of identity matrix?,0,1,n,undefined,1,Always 1
 Maths-1,Advanced,Eigenvalues depend on?,Matrix,Vector,Scalar,Index,0,From matrix
 

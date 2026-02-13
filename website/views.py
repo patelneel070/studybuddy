@@ -130,9 +130,7 @@ def login_view(request):
 
 # -------- PROTECTED --------
 
-@login_required(login_url='/login/')
-def home_view(request):
-    return render(request, 'home.html')
+
 
 @login_required
 def profile_view(request):
