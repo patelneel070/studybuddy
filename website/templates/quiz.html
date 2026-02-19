@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Daily Quiz – StudyBuddy</title>
+  <title>Daily Quiz - StudyBuddy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -11,11 +11,10 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-studybuddy">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-      <img src="{% static 'images/logo.png' %}" alt="logo" class="nav-logo">
+      <img src="{% static 'images/logo.svg' %}" alt="StudyBuddy logo" class="nav-logo">
     </a>
     <a class="navbar-brand" href="#">StudyBuddy</a>
     <div class="collapse navbar-collapse">
@@ -29,66 +28,82 @@
         <li class="nav-item"><a class="nav-link active" href="{% url 'quiz' %}">Quiz</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'about_m' %}">About</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Logout</a></li>
-        <input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode">
-          <label for="themeToggle" class="theme-toggle-label">
-            <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-              </svg>
-            </span>
-            <span class="theme-toggle-slider"></span>
-            <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1" x2="12" y2="3"/>
-                <line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/>
-                <line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-            </span>
-          </label>
+        <li class="nav-item d-flex align-items-center">
+          <div class="theme-toggle-wrap">
+            <input type="checkbox" class="theme-toggle-input" id="themeToggle" aria-label="Toggle light mode">
+            <label for="themeToggle" class="theme-toggle-label">
+              <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              </span>
+              <span class="theme-toggle-slider"></span>
+              <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              </span>
+            </label>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- MAIN QUIZ -->
-<div class="container py-4">
-
-  <h2 class="mb-3">Daily Quiz</h2>
-
-  <!-- SUBJECT SELECTION -->
-  <div id="subjectBox">
-    <h5>Select Subject</h5>
-    <div id="subjectList" class="d-flex flex-wrap gap-2"></div>
+<div class="container py-4 quiz-stage">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <h2 class="mb-0">Daily Quiz</h2>
+    <span class="badge badge-level badge-intermediate">Challenge Mode</span>
   </div>
 
-  <!-- QUIZ -->
-  <div id="quizBox" class="d-none">
-    <p class="text-muted">
-      Question <span id="qNum"></span> / <span id="qTotal"></span>
-    </p>
-    <h5 id="qText"></h5>
-    <div id="options"></div>
-    <button class="btn btn-primary mt-3" id="nextBtn">Next</button>
+  <div id="subjectBox" class="card card-study quiz-intro quiz-fade-in">
+    <div class="card-body p-4">
+      <h5 class="card-title mb-2">Select Subject</h5>
+      <p class="text-muted-study mb-3">Pick a subject to start your quiz.</p>
+      <div id="subjectList" class="d-flex flex-wrap gap-2"></div>
+    </div>
   </div>
 
-  <!-- RESULT -->
-  <div id="resultBox" class="d-none">
-    <h4>Quiz Result</h4>
-    <p>You scored <b id="scoreText"></b></p>
-    <div id="review"></div>
+  <div id="quizBox" class="d-none quiz-fade-in">
+    <div class="card card-study quiz-card" id="questionCard">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="quiz-progress">Question <span id="qNum"></span> / <span id="qTotal"></span></span>
+        <span class="badge badge-level badge-advanced">Live</span>
+      </div>
+      <div class="card-body p-4">
+        <h5 id="qText" class="card-title mb-3"></h5>
+        <div class="progress progress-study mb-3">
+          <div class="progress-bar bg-study" id="quizProgressBar" role="progressbar" style="width: 0%"></div>
+        </div>
+        <div id="options" class="quiz-options"></div>
+        <button class="btn btn-primary-study mt-3" id="nextBtn">Next</button>
+      </div>
+    </div>
   </div>
 
+  <div id="resultBox" class="d-none quiz-fade-in">
+    <div class="card card-study">
+      <div class="card-body p-4">
+        <h4 class="mb-2">Quiz Result</h4>
+        <p class="mb-3">You scored <b id="scoreText"></b></p>
+        <div id="review" class="quiz-review"></div>
+        <a href="{% url 'quiz' %}" class="btn btn-outline-study mt-3">Try Another Subject</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Django data -->
 {{ user_id|json_script:"user-id" }}
 {{ subjects|json_script:"user-subjects" }}
 {{ levels|json_script:"user-levels" }}
@@ -96,12 +111,10 @@
 <script>
 let currentSubject = "";
 
-/* ================= DJANGO DATA ================= */
 const USER_ID = JSON.parse(document.getElementById("user-id").textContent);
 const USER_SUBJECTS = JSON.parse(document.getElementById("user-subjects").textContent);
 const USER_LEVELS = JSON.parse(document.getElementById("user-levels").textContent);
 
-/* ================= QUESTIONS ================= */
 let QUESTIONS = {};
 
 fetch("/quiz/data/")
@@ -112,7 +125,6 @@ fetch("/quiz/data/")
   })
   .catch(err => console.error("Failed loading questions:", err));
 
-/* ================= QUIZ STATE ================= */
 let current = 0;
 let answers = [];
 let currentQuestions = [];
@@ -127,11 +139,12 @@ const qTotal = document.getElementById("qTotal");
 const qText = document.getElementById("qText");
 const optionsDiv = document.getElementById("options");
 const nextBtn = document.getElementById("nextBtn");
+const quizProgressBar = document.getElementById("quizProgressBar");
+const questionCard = document.getElementById("questionCard");
 
-/* ================= SUBJECT BUTTONS ================= */
 USER_SUBJECTS.forEach(sub => {
   const btn = document.createElement("button");
-  btn.className = "btn btn-outline-primary";
+  btn.className = "btn btn-outline-study quiz-subject-btn";
   btn.innerText = sub;
   btn.disabled = true;
   btn.onclick = () => startQuiz(sub);
@@ -144,7 +157,6 @@ function enableSubjectButtons() {
   });
 }
 
-/* ================= START QUIZ ================= */
 function getQuestionCount(level) {
   if (level === "Beginner") return 10;
   if (level === "Intermediate") return 15;
@@ -180,30 +192,27 @@ function startQuiz(subject) {
   renderQuestion();
 }
 
-/* ================= RENDER ================= */
 function renderQuestion() {
   const q = currentQuestions[current];
 
-  // 🔥 IMPORTANT FIX → force number
   q.correct = parseInt(q.correct);
 
   qNum.innerText = current + 1;
   qText.innerText = q.q;
+  quizProgressBar.style.width = ((current + 1) / currentQuestions.length) * 100 + "%";
   optionsDiv.innerHTML = "";
 
   q.options.forEach((opt, i) => {
     optionsDiv.innerHTML += `
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="opt" value="${i}">
-        <label class="form-check-label">${opt}</label>
+        <input class="form-check-input" type="radio" name="opt" id="opt${i}" value="${i}">
+        <label class="form-check-label" for="opt${i}">${opt}</label>
       </div>`;
   });
 
-  nextBtn.innerText =
-    current === currentQuestions.length - 1 ? "Submit" : "Next";
+  nextBtn.innerText = current === currentQuestions.length - 1 ? "Submit" : "Next";
 }
 
-/* ================= NEXT ================= */
 nextBtn.onclick = () => {
   const selected = document.querySelector("input[name='opt']:checked");
   if (!selected) return alert("Select an option");
@@ -212,13 +221,18 @@ nextBtn.onclick = () => {
 
   if (current < currentQuestions.length - 1) {
     current++;
-    renderQuestion();
+    questionCard.classList.add("quiz-switch-out");
+    setTimeout(() => {
+      renderQuestion();
+      questionCard.classList.remove("quiz-switch-out");
+      questionCard.classList.add("quiz-switch-in");
+      setTimeout(() => questionCard.classList.remove("quiz-switch-in"), 260);
+    }, 180);
   } else {
     showResult();
   }
 };
 
-/* ================= RESULT ================= */
 function showResult() {
   quizBox.classList.add("d-none");
   resultBox.classList.remove("d-none");
@@ -228,33 +242,31 @@ function showResult() {
   review.innerHTML = "";
 
   currentQuestions.forEach((q, i) => {
-    const correct =
-      parseInt(answers[i]) === parseInt(q.correct);
+    const correct = parseInt(answers[i]) === parseInt(q.correct);
 
     if (correct) score++;
 
     review.innerHTML += `
-      <div class="border p-2 mb-2">
+      <div class="quiz-review-item p-3 mb-2 ${correct ? "quiz-review-right" : "quiz-review-wrong"}">
         <b>Q${i+1}:</b> ${q.q}<br>
         Your answer: ${q.options[answers[i]]}<br>
         ${
           correct
-            ? "✅ Correct"
-            : "❌ Wrong<br><b>Correct:</b> " +
+            ? "Correct"
+            : "Wrong<br><b>Correct:</b> " +
               q.options[q.correct] +
-              "<br><b>Explanation:</b> " +
-              q.exp
+              "<br><div class='quiz-solution p-2 mt-2'><b>Explanation:</b> " +
+              q.exp +
+              "</div>"
         }
       </div>`;
   });
 
-  document.getElementById("scoreText").innerText =
-    score + " / " + currentQuestions.length;
+  document.getElementById("scoreText").innerText = score + " / " + currentQuestions.length;
 
   saveResult(score);
 }
 
-/* ================= SAVE ================= */
 function saveResult(score) {
   fetch("/quiz/save/", {
     method: "POST",
@@ -273,11 +285,12 @@ function saveResult(score) {
 }
 </script>
 <script>
-/* StudyBuddy theme */
 (function(g){'use strict';var K='studybuddy_theme';function getTheme(){try{var s=localStorage.getItem(K);return s==='light'||s==='dark'?s:'dark';}catch(e){return 'dark';}}
 function setTheme(t){t=t==='light'?'light':'dark';try{localStorage.setItem(K,t);}catch(e){}document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i)i.checked=(t==='light');}
 function init(){var t=getTheme();document.documentElement.setAttribute('data-theme',t);var i=document.getElementById('themeToggle');if(i){i.checked=(t==='light');i.addEventListener('change',function(){setTheme(i.checked?'light':'dark');});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();g.StudyBuddyTheme={getTheme:getTheme,setTheme:setTheme,init:init};})(typeof window!=='undefined'?window:this);
-  </script>
+</script>
 </body>
 </html>
+
+

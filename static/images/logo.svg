@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">StudyBuddy Logo</title>
+  <desc id="desc">Open book and circuit spark symbol</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#bg)"/>
+
+  <path d="M64 38c-9-8-23-10-33-6v43c10-4 24-2 33 6 9-8 23-10 33-6V32c-10-4-24-2-33 6z" fill="url(#ink)" opacity="0.96"/>
+
+  <path d="M64 38v43" stroke="#0f172a" stroke-width="3" opacity="0.35"/>
+
+  <path d="M44 49h14M44 57h14M44 65h12M70 49h14M70 57h14M70 65h12" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round" opacity="0.34"/>
+
+  <circle cx="96" cy="36" r="6" fill="#f59e0b"/>
+  <path d="M92 41l-7 7M101 40l6 6" stroke="#f59e0b" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

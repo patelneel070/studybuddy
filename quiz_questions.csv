@@ -1,40 +1,95 @@
 subject,level,question,option1,option2,option3,option4,correct,explanation
-Maths-1,Beginner,Derivative of x^2?,2x,x,1,0,0,Power rule
-Maths-1,Beginner,Value of pi (approx)?,2.14,3.14,4.13,3.41,1,Common approximation
-Maths-1,Beginner,Integral of 1 dx?,x,1,0,x^2,0,Integral rule
-Maths-1,Intermediate,Integral of sin x?,cos x,-cos x,sin x,-sin x,1,Standard formula
-Maths-1,Intermediate,Derivative of ln x?,1/x,x,log x,0,0,Basic derivative
-Maths-1,Advanced,Determinant of identity matrix?,0,1,n,undefined,1,Always 1
-Maths-1,Advanced,Eigenvalues depend on?,Matrix,Vector,Scalar,Index,0,From matrix
+Maths-1,Beginner,Derivative of x^2 is,2x,x,1,0,1,Power rule
+Maths-1,Beginner,Integral of 1 dx is,x,1,0,x^2,1,Integral of constant 1
+Maths-1,Beginner,Value of pi approximately is,2.71,3.14,1.41,1.73,2,Common approximation
+Maths-1,Beginner,Derivative of sin x is,cos x,-cos x,sin x,-sin x,1,Standard derivative
+Maths-1,Beginner,Integral of cos x is,sin x,-sin x,cos x,-cos x,1,Standard integral
+Maths-1,Beginner,A 2 by 2 matrix has how many elements,2,3,4,5,3,Rows times columns
+Maths-1,Intermediate,Derivative of ln x is,1 over x,ln x,x,0,1,Basic derivative
+Maths-1,Intermediate,Integral of e^x is,e^x plus C,ln x plus C,e^x squared plus C,1 over e^x plus C,1,Derivative of e^x is e^x
+Maths-1,Intermediate,Limit of sin x over x as x tends to 0 is,0,1,infinity,does not exist,2,Standard limit
+Maths-1,Intermediate,Determinant of identity matrix I3 is,0,1,3,-1,2,Identity determinant is 1
+Maths-1,Intermediate,If A and B are invertible then inverse of AB is,A inverse B inverse,B inverse A inverse,AB inverse,BA inverse,2,Reverse order rule
+Maths-1,Intermediate,Derivative of x^n is,n x^(n-1),x^(n-1),n x^n,n over x,1,Power rule
+Maths-1,Advanced,Eigenvalues are found from which equation,det A equals 0,det A minus lambda I equals 0,trace A equals 0,Ax equals 0,2,Characteristic equation
+Maths-1,Advanced,Derivative of tan x is,sec^2 x,cosec^2 x,sec x,tan x,1,Standard derivative
+Maths-1,Advanced,Integral of 1 over x is,ln absolute x plus C,x plus C,1 over x^2 plus C,e^x plus C,1,Standard integral
+Maths-1,Advanced,If vectors are orthogonal then dot product is,1,-1,0,depends on magnitude,3,Orthogonal means perpendicular
+Maths-1,Advanced,Rank of a matrix is,number of columns,number of rows,maximum linearly independent rows or columns,determinant value,3,Definition of rank
+Maths-1,Advanced,For continuous f on a and b the MVT needs,only differentiable,only integrable,continuous on closed interval and differentiable on open interval,only bounded,3,Mean value theorem condition
 
-Data Structures,Beginner,Which uses FIFO?,Stack,Queue,Tree,Graph,1,Queue
-Data Structures,Beginner,Which uses LIFO?,Queue,Array,Stack,Graph,2,Stack rule
-Data Structures,Beginner,Top operation is in?,Queue,Stack,Tree,Graph,1,Stack
-Data Structures,Intermediate,Binary search complexity?,O(n),O(log n),O(1),O(n log n),1,Divide method
-Data Structures,Intermediate,Heap is?,Sorted tree,Complete binary tree,Graph,List,1,Heap property
-Data Structures,Advanced,AVL tree is?,Unbalanced,Self balancing,Heap,Binary search,1,Balances height
-Data Structures,Advanced,DFS uses?,Queue,Stack,Array,Tree,1,Stack internally
+Data Structures,Beginner,Which data structure follows FIFO,Stack,Queue,Tree,Heap,2,Queue is FIFO
+Data Structures,Beginner,Which data structure follows LIFO,Queue,Array,Stack,Graph,3,Stack is LIFO
+Data Structures,Beginner,Top operation is associated with,Queue,Stack,Tree,Hash table,2,Top is stack term
+Data Structures,Beginner,Linear search worst case complexity is,O(1),O(log n),O(n),O(n log n),3,May scan all elements
+Data Structures,Beginner,Binary tree node can have at most how many children,1,2,3,4,2,Definition of binary tree
+Data Structures,Beginner,Which traversal is Root Left Right,Inorder,Postorder,Level order,Preorder,4,Preorder pattern
+Data Structures,Intermediate,Binary search works on,unsorted array,sorted array,linked list only,hash map only,2,Requires sorted order
+Data Structures,Intermediate,Binary search time complexity is,O(n),O(log n),O(n log n),O(1),2,Halving search space
+Data Structures,Intermediate,Height balanced BST is,AVL tree,B tree,Heap,Trie,1,AVL is self balancing
+Data Structures,Intermediate,Queue implementation can use,array or linked list,tree only,graph only,hash only,1,Both are common
+Data Structures,Intermediate,DFS usually uses,Queue,Stack,Priority queue,Deque only,2,Explicit or recursion stack
+Data Structures,Intermediate,BFS usually uses,Stack,Queue,Array,Recursion only,2,Level wise exploration
+Data Structures,Advanced,Heap used for priority queue is usually,Complete binary tree,Perfect tree,BST,Trie,1,Heap property plus completeness
+Data Structures,Advanced,Average case of quicksort is,O(n^2),O(log n),O(n log n),O(n),3,Average partition behavior
+Data Structures,Advanced,Worst case of quicksort is,O(n^2),O(n log n),O(log n),O(1),1,Poor pivot repeatedly
+Data Structures,Advanced,Hash table average search is,O(1),O(n),O(log n),O(n log n),1,Assuming good hashing
+Data Structures,Advanced,Inorder traversal of BST gives,reverse sorted,random,sorted order,level order,3,BST property
+Data Structures,Advanced,Red black tree guarantees height,linear in n,logarithmic in n,constant,quadratic,2,Balancing guarantee
 
-DBMS,Beginner,ACID stands for?,Atomicity Consistency Isolation Durability,None,None,None,0,Transaction rules
-DBMS,Beginner,Full form of DBMS?,Data Base Mgmt System,None,None,None,0,Expansion
-DBMS,Beginner,SQL stands for?,Structured Query Language,None,None,None,0,Standard
-DBMS,Intermediate,Primary key must be?,Null,Unique,Duplicate,Optional,1,Uniqueness
-DBMS,Intermediate,Foreign key is used for?,Relation,Deletion,Indexing,Sorting,0,Table link
-DBMS,Advanced,Which NF removes transitive dependency?,1NF,2NF,3NF,BCNF,2,3NF
-DBMS,Advanced,Index improves?,Speed,Size,Security,None,0,Faster queries
+DBMS,Beginner,ACID property A stands for,Atomicity,Accuracy,Availability,Association,1,Transaction property
+DBMS,Beginner,SQL stands for,Simple Query Language,Structured Query Language,Sequential Query Language,System Query Language,2,Standard expansion
+DBMS,Beginner,Primary key can be,NULL,duplicate,unique and not null,multiple null values,3,Key constraint
+DBMS,Beginner,Foreign key is used to,enforce relationship,sort rows,compress data,encrypt data,1,References parent key
+DBMS,Beginner,Command to fetch data is,INSERT,UPDATE,SELECT,DELETE,3,Read operation
+DBMS,Beginner,A table row is also called,field,record,schema,index,2,Row equals record
+DBMS,Intermediate,Which normal form removes partial dependency,1NF,2NF,3NF,BCNF,2,2NF condition
+DBMS,Intermediate,Which normal form removes transitive dependency,1NF,2NF,3NF,4NF,3,3NF condition
+DBMS,Intermediate,JOIN that returns matching rows from both tables is,LEFT JOIN,RIGHT JOIN,INNER JOIN,FULL JOIN,3,Common intersection
+DBMS,Intermediate,COUNT function returns,number of columns,number of rows,value sum,average,2,Aggregation
+DBMS,Intermediate,Index mainly improves,write speed,query read speed,storage size,network speed,2,Faster lookup
+DBMS,Intermediate,Clause used to filter grouped rows is,WHERE,HAVING,ORDER BY,LIMIT,2,After GROUP BY
+DBMS,Advanced,Isolation level that avoids dirty reads is,Read Uncommitted,Read Committed,Serializable,None,2,Committed data only
+DBMS,Advanced,Deadlock means,two transactions wait forever,table deleted,index corruption,password mismatch,1,Circular wait
+DBMS,Advanced,BCNF requires,all attributes prime,every determinant is superkey,only two columns,no foreign keys,2,BCNF rule
+DBMS,Advanced,Command to remove table structure and data is,DROP TABLE,DELETE FROM,TRUNCATE LOG,REMOVE TABLE,1,Drop removes schema
+DBMS,Advanced,TRUNCATE differs from DELETE because it,logs row by row,can be rolled back always,is generally faster and removes all rows,drops indexes only,3,Deallocates pages
+DBMS,Advanced,Composite key is,key with one attribute,key made from multiple attributes,foreign key only,unique index only,2,Multiple columns
 
-Java,Beginner,JVM stands for?,Java Virtual Machine,Java Visual Model,JS VM,None,0,Executes bytecode
-Java,Beginner,Java is?,Compiled,Interpreted,Both,None,2,Hybrid
-Java,Beginner,Extension of Java bytecode?,.java,.class,.jar,.exe,1,Compiled file
-Java,Intermediate,String is?,Mutable,Immutable,Flexible,None,1,Cannot change
-Java,Intermediate,Parent of all classes?,Object,String,System,Main,0,Top class
-Java,Advanced,Which GC is low latency?,Serial,Parallel,G1,ZGC,3,Modern GC
-Java,Advanced,Stream API introduced in?,Java 5,Java 6,Java 8,Java 11,2,Functional ops
+Java,Beginner,Java source file extension is,.class,.java,.jar,.jsp,2,Source extension
+Java,Beginner,Bytecode runs on,JDK,JVM,JRE installer,Compiler only,2,JVM executes bytecode
+Java,Beginner,Which keyword creates object,new,class,this,super,1,Object instantiation
+Java,Beginner,Default value of boolean field is,true,false,null,0,2,Default for boolean
+Java,Beginner,Parent class of all classes is,String,Object,System,Class,2,Root of hierarchy
+Java,Beginner,Which is not primitive type,String,int,double,char,1,String is reference type
+Java,Intermediate,String in Java is,mutable,immutable,synchronized only,numeric,2,Cannot be modified
+Java,Intermediate,Method overloading means,same method name different parameters,same signature in subclass,private methods only,multiple return types only,1,Compile time polymorphism
+Java,Intermediate,Method overriding occurs in,same class,subclass with same signature,interface only,constructor only,2,Runtime polymorphism
+Java,Intermediate,Collection that stores unique elements is,List,Queue,Set,Map,3,No duplicates in Set
+Java,Intermediate,ArrayList access by index is roughly,O(1),O(log n),O(n),O(n log n),1,Dynamic array behavior
+Java,Intermediate,Exception that must be declared is,RuntimeException,NullPointerException,Checked exception,ArithmeticException,3,Compile time checking
+Java,Advanced,Stream API introduced in Java,5,6,7,8,4,Java 8 feature
+Java,Advanced,Keyword for inheritance is,implements,extends,import,instanceof,2,Class inheritance
+Java,Advanced,Interface methods are by default,private,protected,public abstract,final,3,Until default/static methods
+Java,Advanced,HashMap allows,duplicate keys,null key not allowed,one null key,sorted keys always,3,One null key allowed
+Java,Advanced,ConcurrentHashMap is mainly for,UI design,thread safe map use,file IO only,reflection,2,Concurrency support
+Java,Advanced,Garbage collector frees,memory of unreachable objects,cpu cache,network sockets always,stack frames manually,1,Automatic memory management
 
-Physics,Beginner,Unit of force?,Newton,Joule,Watt,Pascal,0,SI unit
-Physics,Beginner,Unit of power?,Joule,Watt,Newton,Volt,1,SI
-Physics,Beginner,Gravity discovered by?,Newton,Einstein,Tesla,Edison,0,Apple story
-Physics,Intermediate,Formula of speed?,d/t,t/d,dt,d+t,0,Basic
-Physics,Intermediate,Unit of frequency?,Hertz,Newton,Joule,Watt,0,Hz
-Physics,Advanced,Speed of light?,3e8,3e6,3e5,3e7,0,m/s
-Physics,Advanced,Ohm law?,V=IR,I=VR,R=VI,P=VI,0,Relation
+Physics,Beginner,SI unit of force is,Newton,Joule,Watt,Pascal,1,Force unit
+Physics,Beginner,SI unit of power is,Watt,Joule,Newton,Volt,1,Power unit
+Physics,Beginner,SI unit of frequency is,Hertz,Newton,Coulomb,Tesla,1,Cycles per second
+Physics,Beginner,Speed is defined as,distance divided by time,time divided by distance,distance times time,displacement squared,1,Basic definition
+Physics,Beginner,Acceleration unit is,m per s,m per s squared,m squared per s,squared meter,2,Rate of change of velocity
+Physics,Beginner,Ohm law is,V equals I R,P equals V I,F equals m a,E equals m c squared,1,Electric relation
+Physics,Intermediate,Kinetic energy formula is,half m v squared,m g h,m a,v over t,1,Translational KE
+Physics,Intermediate,Potential energy near Earth is,m g h,half m v squared,I R,lambda nu,1,Gravitational PE
+Physics,Intermediate,Momentum formula is,m v,m over v,v over m,m g,1,Linear momentum
+Physics,Intermediate,Wave relation is,v equals f lambda,f equals v over lambda only,lambda equals v f,v equals f over lambda,1,Basic wave equation
+Physics,Intermediate,Current is rate of flow of,voltage,charge,resistance,power,2,Definition of electric current
+Physics,Intermediate,Unit of electric resistance is,Henry,Ohm,Farad,Weber,2,Resistance unit
+Physics,Advanced,Newton second law is,F equals m a,F equals m over a,F equals a over m,F equals m g,1,Dynamics law
+Physics,Advanced,Escape velocity from Earth is approximately,11.2 km per s,3 km per s,1.1 km per s,22 km per s,1,Standard value
+Physics,Advanced,Snell law is,n1 sin theta1 equals n2 sin theta2,V equals I R,F equals m a,P equals W over t,1,Refraction law
+Physics,Advanced,Work done formula is,F s cos theta,m g h,half m v squared,I squared R,1,Mechanical work
+Physics,Advanced,Capacitance unit is,Ohm,Farad,Henry,Tesla,2,Capacitance unit
+Physics,Advanced,Magnetic flux unit is,Weber,Tesla only,Newton,Coulomb,1,Flux unit
